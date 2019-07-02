@@ -242,6 +242,13 @@ void Combo::PaintText(IRenderContext* pRender)
 	}
 }
 
+std::wstring Combo::GetStateImage(ControlStateType stateType) const
+{
+    if( m_iCurSel < 0 ) return _T("");
+	ListContainerElement* pControl = static_cast<ListContainerElement*>(m_pLayout->GetItemAt(m_iCurSel));
+    return pControl->GetStateImage(stateType);
+}
+
 std::wstring Combo::GetText() const
 {
     if( m_iCurSel < 0 ) return _T("");
@@ -297,6 +304,7 @@ bool Combo::OnSelectItem(EventArgs* args)
 	if (m_pWindow != NULL) {
 		m_pWindow->SendNotify(this, kEventSelect, m_iCurSel, -1);
 	}
+    SetStateImage(kControlStateNormal, GetStateImage(kControlStateNormal));
 	return true;
 }
 
